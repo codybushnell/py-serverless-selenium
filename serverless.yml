@@ -1,0 +1,32 @@
+service: py-serverless-selenium
+provider:
+  name: aws
+  runtime: python3.6
+  environment:
+    PATH: "/var/task/bin"
+    PYTHONPATH: "/var/task/lib"
+
+functions:
+  hello:
+    handler: handler.handler
+    timeout: 10
+    memorySize: 1024
+
+plugins:
+  - serverless-python-requirements
+  - serverless-dotenv-plugin
+
+package:
+  exclude: # Specify the directories and files which should be excluded in the deployment package
+    - .git/**
+    - .gitignore
+    - node_modules/**
+    - package.json
+    - package-lock.json
+    - requirements.txt
+    - serverless.yml
+    - .env*
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
